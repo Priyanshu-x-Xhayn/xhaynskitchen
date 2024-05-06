@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import NavigationBar from './Components/NavigationBar';
+import { Outlet, BrowserRouter as Router } from 'react-router-dom'; // Imported BrowserRouter as Router
+import Body from './Components/Body';
+import { Provider as ReduxProvider } from 'react-redux'; // Renamed Provider alias
+import userContext from './Components/Utils/userContext'; // Changed to named import
+import appStore from './Components/Utils/appStore';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState("DefaultUser");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ReduxProvider store={appStore}>
+      <userContext.Provider value={{ loggedInUser: user, setUser }}>
+        <div className='bg-[#E5E7EB]'>
+            <NavigationBar />
+            <Outlet/>
+      
+        </div>
+      </userContext.Provider>
+    </ReduxProvider>
   );
-}
+};
 
 export default App;
